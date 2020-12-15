@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">  
+<h:head>  
+    <h2><center>All User Information</center></h2>  
+</h:head>  
+<h:body>  
+    <h:form>  
+        <p:commandButton action="Search?faces-redirect=true" icon="ui-icon-search" value="Search" />  
+    </h:form>  
+  
+    <p:spacer> </p:spacer>  
+    <h:form id="form1">  
+        <p:dataTable id="dataTable" var="user" paginator="true" rows="5" value="#{userMB.users}">  
+            <p:column headerText="User Id">  
+                <h:outputText value="#{user.userId}" />  
+            </p:column>  
+            <p:column headerText="Name">  
+                <h:outputText value="#{user.userName}" />  
+            </p:column> 
+            <p:column headerText="Password">  
+                <h:outputText value="#{user.userPass}" />  
+            </p:column>
+        </p:dataTable>  
+    </h:form>  
+    <h:panelGroup>  
+        <h3>Add User Information</h3>  
+        <h:form>  
+            <p>User Name:  
+            <p:inputText value="#{userMB.userName}" /></p>  
+            <p>Password:  
+            <h:inputSecret value="#{userMB.userPass}"></h:inputSecret> 
+            </p>
+            <p>  
+                <p:commandButton icon="ui-icon-plusthick" update=":form1:dataTable" type="submit" value="add" action="#{userMB.addUser()}" /></p>  
+        </h:form>  
+    </h:panelGroup>  
+</h:body>  
+  
+</html>  

@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' ?>  
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:h="http://java.sun.com/jsf/html"   
+      xmlns:p="http://primefaces.org/ui">  
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+    <title>PROJECT</title>  
+</h:head>  
+
+    <h:body>
+    
+    <div id="top">
+            <h:graphicImage library="images" name="header.jpg" width="1315px"/>    
+            
+            <h:form id="form">
+                <p:megaMenu id="menu">
+                <p:menuitem value="Home" url="project.xhtml" id="menu1" />
+                <p:menuitem value="Analysis" url="analysis.xhtml" id="menu2"/>
+                <p:menuitem value="Logout" url="index.xhtml" id="menu3"/>
+            </p:megaMenu>
+            </h:form>
+ 
+            
+        </div>
+    
+     <div id="content" class="center_content">
+    <p:spacer> </p:spacer>
+<!--     END SHOW USER-->
+<!--     UPDATE USER-->
+    <p:dialog id="userDetail" widgetVar="$userDetail" header="Update User" hideEffect="explode" appendTo="@(body)" resizable="false" draggable="false" closeOnEscape="true">  
+        <h:form>  
+            <h:inputHidden value="#{userMB.userId}" />  
+            <p:panelGrid columns="2">  
+                <h:outputLabel for="username" value="Username : *" />  
+                <h:outputText value="#{userMB.userName}" />  
+                <h:outputLabel for="password" value="Password: *" />  
+                <p:inputText id="password" value="#{userMB.userPass}" label="Password" placeholder="Password" />  
+  
+                <p:commandButton value="Update" ajax="true" icon="ui-icon-disk" update=":form2:dataTable" actionListener="#{userMB.UpdateUser(userMB.user)}" oncomplete="handleComplete(xhr, status, args)" />  
+                <p:commandButton value="Cancel" id="cancelButtonId" onclick="handleComplete(xhr, status, args)" />  
+            </p:panelGrid>  
+        </h:form>  
+  
+    </p:dialog>  
+    <h:outputScript id="handleCompleteScript" target="body">  
+        /* 
+        <![CDATA[ */  
+function handleComplete(xhr, status, args) {  
+if(args && args.validName) {  
+$userDetail.hide();  
+}  
+}  
+/* ]]>*/  
+    </h:outputScript>
+ <center><h3>User Details</h3></center>
+<h:form id="form2">  
+        <p:dataTable id="dataTable" var="user" value="#{userMB.userInfo}">  
+            <p:column headerText="User Id">  
+                <h:outputText value="#{user.userId}" />  
+            </p:column>  
+            <p:column headerText="Name">  
+                <h:outputText value="#{user.userName}" />  
+            </p:column> 
+            <p:column headerText="Password">  
+                <h:outputText value="#{user.userPass}" />  
+            </p:column>
+<!--            <p:column headerText="Edit" style="text-align: center">  
+                <p:commandButton icon="ui-icon-pencil" id="editUsersBtn" value="Edit" ajax="true" actionListener="#{userMB.changeUser(user)}" update=":userDetail" oncomplete="PF('$userDetail').show()" />  
+  
+            </p:column>-->
+        </p:dataTable>  
+    </h:form>
+<!--   END UPDATE USER
+    UPDATE PROJECT-->
+    <p:dialog id="userDetail2" widgetVar="$userDetail2" header="Update Project" hideEffect="explode" appendTo="@(body)" resizable="false" draggable="false" closeOnEscape="true">  
+        <h:form>  
+            <h:inputHidden value="#{projectMB.project.projId}" />  
+            <p:panelGrid columns="2">  
+                <h:outputLabel for="projtitle" value="Title : *" />  
+                <p:inputText id="projtitle" value="#{projectMB.project.projTitle}" label="Title" placeholder="Title" />  
+                <h:outputLabel for="projdesc" value="Description: *" />  
+                <p:inputText id="projdesc" value="#{projectMB.project.projDesc}" label="Description" placeholder="Description" />  
+  
+                <p:commandButton value="Update" ajax="true" icon="ui-icon-disk" update=":form1:userTable" actionListener="#{projectMB.UpdateProject(projectMB.project)}" oncomplete="handleComplete(xhr, status, args)" />  
+                <p:commandButton value="Cancel" id="cancelButtonId" onclick="handleComplete(xhr, status, args)" />  
+            </p:panelGrid>  
+        </h:form>  
+  
+    </p:dialog>  
+    <h:outputScript id="handleCompleteScript" target="body">  
+        /* 
+        <![CDATA[ */  
+function handleComplete(xhr, status, args) {  
+if(args && args.validName) {  
+$userDetail2.hide();  
+}  
+}  
+/* ]]>*/  
+    </h:outputScript>  
+<!--  END UPDATE PROJECT
+  SHOW PROJECT-->
+ <center><h3>Project Details</h3></center>
+    <h:form id="form1">  
+<!--        <p:commandButton icon="ui-icon-plusthick" id="addUserBtn" value="Add Project"  update=":userDetail1" ajax="true" oncomplete="PF('$userDetail1').show()" />  -->
+  
+        <p:dataTable value="#{userMB.projectByUser}" var="project" paginator="true" rows="5" id="userTable">  
+            <p:column headerText="ID" style="text-align: left;">  
+                <h:outputText value="#{project.projId}" />  
+            </p:column>  
+            <p:column headerText="Title">  
+                #{project.projTitle}  
+            </p:column>
+            <p:column headerText="Desc">  
+                #{project.projDesc}  
+            </p:column> 
+            <p:column headerText="View" style="text-align: center">  
+                <p:commandButton icon="ui-icon-note" id="viewUserBtn" value="View" ajax="true" action="#{projectMB.viewProject(project)}" />  
+  
+            </p:column>
+            <p:column headerText="Edit" style="text-align: center">  
+                <p:commandButton icon="ui-icon-pencil" id="editUserBtn" value="Edit" ajax="true" actionListener="#{projectMB.changeProject(project)}" update=":userDetail2" oncomplete="PF('$userDetail2').show()" />  
+  
+            </p:column>  
+  
+            <p:column headerText="Delete" style="text-align: center">  
+  
+                <p:commandButton value="Delete" icon="ui-icon-trash" type="button" onclick="PF('confirmDialog').show()" />  
+                <p:confirmDialog message="Are you sure you want to delete this record?Record once deleted can not be retrieved." header="Deleting" severity="alert" widgetVar="confirmDialog">  
+                    <p:commandButton value="Yes Sure" update=":form1:userTable" action="#{projectMB.remove(project)}" oncomplete="PF('confirmDialog').hide()" />  
+  
+                    <p:commandButton value="Not Yet" onclick="PF('confirmDialog').hide();" type="button" />  
+                </p:confirmDialog>  
+  
+            </p:column>  
+            
+            
+  
+        </p:dataTable> 
+        
+    </h:form>  
+  
+
+ <h:panelGroup>  
+      <center><h3>Add Project</h3></center>   
+        <h:form style="text-align: center">  
+            <p>Title: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+            <p:inputText value="#{projectMB.projTitle}" /></p>  
+            <p>Description: &nbsp;&nbsp;&nbsp;  
+             <p:inputText value="#{projectMB.projDesc}" /></p> 
+             
+            <p>  
+                <p:commandButton icon="ui-icon-plusthick"  type="submit" value="add" action="#{projectMB.addProject(userMB.retrieveId())}" /></p>  
+        </h:form>  
+ </h:panelGroup>
+             </div>
+
+        <div id="bottom">
+            <h:graphicImage library="images" name="header.jpg" width="1315px"/>
+        </div>
+
+</h:body>  
+  
+</html>

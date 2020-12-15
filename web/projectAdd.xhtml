@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html">
+   <h:body>
+      <h:form>
+         <tr>
+            <td>
+               <h:commandButton value="View Project" action="project?faces- redirect=true" />
+            </td>
+         </tr>
+      </h:form>
+      <h:form>
+         <h3>Add Project</h3>
+         <table>
+            <tr>
+               <td>Title :</td>
+               <td>
+                  <h:inputText size="15" value="#{projectMB.projTitle}" />
+                  <h:inputText value="#{projectMB.userId}" />
+<!--                  type="hidden"-->
+               </td>
+            </tr>
+            <tr>
+               <td>Description :</td>
+               <td>
+                  <h:inputText value="#{projectMB.projDesc}" />
+               </td>
+               <td>
+                  <h:message for="inputdesc" style="color:red" />
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <h:commandButton value="Add Project" action="projectAdd" />
+               </td>
+            </tr>
+         </table>
+      </h:form>
+   </h:body>
+</html>
